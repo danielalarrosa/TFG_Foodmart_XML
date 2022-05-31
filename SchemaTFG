@@ -1,0 +1,131 @@
+<Schema name="Trabajo TFG_prueba">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Productos">
+    <Hierarchy name="Productos" visible="true" hasAll="true" allMemberName="Todos los Productos" primaryKey="product_id" primaryKeyTable="product">
+      <Join leftKey="product_class_id" rightKey="product_class_id">
+        <Table name="product">
+        </Table>
+        <Table name="product_class">
+        </Table>
+      </Join>
+      <Level name="Familia de Productos" visible="true" table="product_class" column="product_family" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Departamento del Producto" visible="true" table="product_class" column="product_department" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Categoria del Producto" visible="true" table="product_class" column="product_category" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Subcategoria del Producto" visible="true" table="product_class" column="product_subcategory" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nombre de la Marca" visible="true" table="product" column="brand_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nombre del Producto" visible="true" table="product" column="product_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="TimeDimension" visible="true" highCardinality="false" name="Tiempo">
+    <Hierarchy name="Tiempo" visible="true" hasAll="false" primaryKey="time_id">
+      <Table name="time_by_day">
+      </Table>
+      <Level name="A&#241;o" visible="true" column="the_year" type="Numeric" uniqueMembers="true" levelType="TimeYears" hideMemberIf="Never">
+      </Level>
+      <Level name="Cuartiles" visible="true" column="quarter" type="String" uniqueMembers="false" levelType="TimeQuarters" hideMemberIf="Never">
+      </Level>
+      <Level name="Mes" visible="true" column="month_of_year" type="Numeric" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Compradores">
+    <Hierarchy name="Por Ciudad" visible="true" hasAll="true" allMemberName="Todos los Compradores" primaryKey="customer_id">
+      <Table name="customer">
+      </Table>
+      <Level name="Pa&#237;s" visible="true" column="country" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Provincia_estado" visible="true" column="state_province" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Ciudad" visible="true" column="city" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nombre" visible="true" table="customer" column="customer_id" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <NameExpression>
+          <SQL dialect="mysql">
+            <![CDATA[CONCAT(`customer`.`fname`, ' ', `customer`.`lname`)]]>
+          </SQL>
+        </NameExpression>
+        <Property name="G&#233;nero" column="gender" type="String">
+        </Property>
+        <Property name="Estatus Marital" column="marital_status" type="String">
+        </Property>
+        <Property name="Educaci&#243;n" column="education" type="String">
+        </Property>
+        <Property name="Ingresos Anuales" column="yearly_income" type="String">
+        </Property>
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="G&#233;nero" visible="true" hasAll="true" allMemberName="Todos los g&#233;neros" primaryKey="customer_id">
+      <Table name="customer">
+      </Table>
+      <Level name="G&#233;nero" visible="true" column="gender" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Estado Civil" visible="true" hasAll="true" allMemberName="Todos los estados civiles" primaryKey="customer_id">
+      <Table name="customer">
+      </Table>
+      <Level approxRowCount="111" name="Estado Civil" visible="true" column="marital_status" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Nivel de Educaci&#243;n" visible="true" hasAll="true" allMemberName="Todos los niveles de Educaci&#243;n" primaryKey="customer_id">
+      <Table name="customer">
+      </Table>
+      <Level name="Nivel de Educaci&#243;n" visible="true" column="education" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Ingresos Anuales" visible="true" hasAll="true" allMemberName="Todos los Ingresos Anuales" primaryKey="customer_id">
+      <Table name="customer">
+      </Table>
+      <Level name="Ingresos Anuales" visible="true" column="yearly_income" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Tiendas">
+    <Hierarchy name="Localizaci&#243;n" visible="true" hasAll="true" primaryKey="store_id">
+      <Table name="store">
+      </Table>
+      <Level name="Pa&#237;s de la tienda" visible="true" column="store_country" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Estado Tienda" visible="true" column="store_state" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Ciudad Tienda" visible="true" column="store_city" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nombre Tienda" visible="true" table="store" column="store_name" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+        <Property name="Tipo de Tienda" column="store_type" type="String">
+        </Property>
+        <Property name="Manager de la Tienda" column="store_manager" type="String">
+        </Property>
+        <Property name="Direcci&#243;n" column="store_street_address" type="String">
+        </Property>
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Tipo de Tienda" visible="true" hasAll="true" primaryKey="store_id">
+      <Table name="store">
+      </Table>
+      <Level name="Tipo de Tienda" visible="true" column="store_type" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Ventas" visible="true" cache="true" enabled="true">
+    <Table name="sales_fact_1998">
+    </Table>
+    <DimensionUsage source="Tiendas" name="Tiendas" visible="true" foreignKey="store_id" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Tiempo" name="Tiempo" visible="true" foreignKey="time_id" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Productos" name="Productos" visible="true" foreignKey="product_id" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Compradores" name="Compradores" visible="true" foreignKey="customer_id" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Ventas de Unidades" column="unit_sales" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Costo de Tienda" column="store_cost" formatString="#,###.00" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Ventas de la Tienda" column="store_sales" formatString="#,###.00" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
